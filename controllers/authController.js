@@ -1,7 +1,11 @@
 const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+const { attachCookiesToResponse, createTokenUser } = require('../utils');
 
+// @desc    Register a new user
+// @route   POST /api/v1/auth/register
+// @access  Public
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -14,7 +18,9 @@ const registerUser = async (req, res) => {
   const role = isFirstAccount ? 'admin' : 'user';
 
   const user = await User.create({ name, email, password, role });
-  res.status(StatusCodes.CREATED).json({ user });
+  const tokenUser = createTokenUser(user);
+  attachCookiesToResponse({ res, user: tokenUser });
+  res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 
 const loginUser = async (req, res) => {
