@@ -50,8 +50,16 @@ const loginUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
+// @desc    Log user out
+// @route   GET /api/v1/auth/logout
+// @access  Public
 const logoutUser = async (req, res) => {
-  res.send('logoutUser');
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+
+  res.status(StatusCodes.OK).json({ msg: 'user has logged out!' });
 };
 
 module.exports = { registerUser, loginUser, logoutUser };
