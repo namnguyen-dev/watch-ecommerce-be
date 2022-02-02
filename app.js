@@ -10,6 +10,9 @@ const morgan = require('morgan');
 
 // database
 const connectDB = require('./db/connect');
+
+// routers
+const authRouter = require('./routes/authRoutes');
 // middleware
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
@@ -17,9 +20,20 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.use(morgan('tiny'));
 app.use(express.json());
 
+// routes
 app.get('/', (req, res) => {
-  res.send('cbfghgj');
+  res.send(
+    `<h1>Watch-e-commerce-API</h1><a href="/api/v1/products">product route</a>`
+  );
 });
+
+app.get('/api/v1', (req, res) => {
+  res.send(
+    `<h1>Watch-e-commerce-API</h1><a href="/api/v1/products">product route</a>`
+  );
+});
+
+app.use('/api/v1/auth', authRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
