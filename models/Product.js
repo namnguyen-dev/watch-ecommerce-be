@@ -57,6 +57,11 @@ const ProductSchema = new mongoose.Schema(
       required: true,
       default: 20,
     },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   { timestamps: true }
 );
