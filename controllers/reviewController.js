@@ -4,6 +4,10 @@ const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
 
+
+// @desc    Create a review
+// @route   POST /api/v1/reviews
+// @access  Public
 const createReview = async (req, res) => {
   const { product: productId } = req.body;
 
@@ -27,6 +31,9 @@ const createReview = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ review });
 };
 
+// @desc    Get all reviews
+// @route   GET /api/v1/reviews
+// @access  Public
 const getAllReviews = async (req, res) => {
   const reviews = await Review.find({}).populate({
     path: 'product',
@@ -36,6 +43,9 @@ const getAllReviews = async (req, res) => {
   res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
 };
 
+// @desc    Get a review with id
+// @route   GET /api/v1/reviews/:id
+// @access  Public
 const getSingleReview = async (req, res) => {
   const { id: reviewId } = req.params;
 
@@ -48,6 +58,9 @@ const getSingleReview = async (req, res) => {
   res.status(StatusCodes.OK).json({ review });
 };
 
+// @desc    Update a review
+// @route   PATCH /api/v1/reviews/:id
+// @access  Public
 const updateReview = async (req, res) => {
   const { id: reviewId } = req.params;
   const { rating, title, comment } = req.body;
@@ -68,6 +81,9 @@ const updateReview = async (req, res) => {
   res.status(StatusCodes.OK).json({ review });
 };
 
+// @desc    Delete a review
+// @route   DELETE /api/v1/reviews/:id
+// @access  Public
 const deleteReview = async (req, res) => {
   const { id: reviewId } = req.params;
 
@@ -83,6 +99,9 @@ const deleteReview = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Review removed' });
 };
 
+// @desc    Get all reviews for a product
+// @route   GET /api/v1/products/:id/reviews
+// @access  Public
 const getSingleProductReviews = async (req, res) => {
   const { id: productId } = req.params;
   const reviews = await Review.find({ product: productId });

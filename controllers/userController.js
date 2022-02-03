@@ -7,12 +7,17 @@ const {
   createTokenUser,
 } = require('../utils');
 
-
+// @desc    Get all users
+// @route   GET /api/v1/users
+// @access  Private/Admin
 const getAllUsers = async (req, res) => {
   const users = await User.find({ role: 'user' }).select('-password');
   res.status(StatusCodes.OK).json({ users });
 };
 
+// @desc    Get user by id
+// @route   GET /api/v1/users/:id
+// @access  Public
 const getSingleUser = async (req, res) => {
   const user = await User.findOne({ _id: req.params.id }).select('-password');
   if (!user) {
@@ -24,10 +29,16 @@ const getSingleUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user });
 };
 
+// @desc    Show current user
+// @route   GET /api/v1/users/profile
+// @access  Public
 const showCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: req.user });
 };
 
+// @desc    Admin updates user
+// @route   PATCH /api/v1/users/:id
+// @access  Private/Admin
 const updateUser = async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -45,6 +56,9 @@ const updateUser = async (req, res) => {
   }
 };
 
+// @desc    User updates password
+// @route   PATCH /api/v1/users/updateUserPassword
+// @access  Public
 const updateUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   if (!oldPassword || !newPassword) {
@@ -62,6 +76,9 @@ const updateUserPassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 };
 
+// @desc    User updates profile
+// @route   PATCH /api/v1/users/userUpdateProfile
+// @access  Public
 const userUpdateProfile = async (req, res) => {
   const user = await User.findById(req.user.userId);
 

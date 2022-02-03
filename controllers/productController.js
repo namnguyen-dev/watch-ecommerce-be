@@ -3,17 +3,26 @@ const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const path = require('path');
 
+// @desc    Create a product
+// @route   POST /api/v1/products
+// @access  Private/admin
 const createProduct = async (req, res) => {
   req.body.user = req.user.userId;
   const product = await Product.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
 };
 
+// @desc    Get all products
+// @route   GET /api/v1/products
+// @access  Private/admin
 const getAllProducts = async (req, res) => {
   const products = await Product.find({});
   res.status(StatusCodes.OK).json({ products, count: products.length });
 };
 
+// @desc    Get product by id
+// @route   GET /api/v1/products/:id
+// @access  Public
 const getSingleProduct = async (req, res) => {
   const { id: productId } = req.params;
 
@@ -26,6 +35,9 @@ const getSingleProduct = async (req, res) => {
   res.status(StatusCodes.OK).json(product);
 };
 
+// @desc    Update product
+// @route   PATCH /api/v1/products/:id
+// @access  Private/admin
 const updateProduct = async (req, res) => {
   const { id: productId } = req.params;
 
@@ -41,6 +53,9 @@ const updateProduct = async (req, res) => {
   res.status(StatusCodes.OK).json({ product });
 };
 
+// @desc    Delete product
+// @route   DELETE /api/v1/products/:id
+// @access  Private/admin
 const deleteProduct = async (req, res) => {
   const { id: productId } = req.params;
 
@@ -54,6 +69,9 @@ const deleteProduct = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: 'Success! Product removed.' });
 };
 
+// @desc    Upload product image
+// @route   POST /api/v1/products/uploadImage
+// @access  Private/admin
 const uploadImage = async (req, res) => {
   if (!req.files) {
     throw new CustomError.BadRequestError('No File Uploaded');

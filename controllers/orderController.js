@@ -4,6 +4,9 @@ const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
 
+// @desc    Create order
+// @route   POST /api/v1/orders
+// @access  Public
 const createOrder = async (req, res) => {
   const {
     items: cartItems,
@@ -60,11 +63,17 @@ const createOrder = async (req, res) => {
   res.status(StatusCodes.CREATED).json(order);
 };
 
+// @desc    Get all orders
+// @route   POST /api/v1/orders
+// @access  Private/admin
 const getAllOrders = async (req, res) => {
   const orders = await Order.find({}).populate('user');
   res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
 
+// @desc    Get order by Id
+// @route   GET /api/v1/orders/:id
+// @access  Public
 const getSingleOrder = async (req, res) => {
   const { id: orderId } = req.params;
   const order = await Order.findOne({ _id: orderId }).populate(
@@ -78,11 +87,17 @@ const getSingleOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ order });
 };
 
+// @desc    Get current user's orders
+// @route   GET /api/v1/orders/showAllMyOrders
+// @access  Public
 const getCurrentUserOrders = async (req, res) => {
   const orders = await Order.find({ user: req.user.userId });
   res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
 
+// @desc    Update order to paid
+// @route   POST /api/v1/orders/:id/pay
+// @access  Public
 const updateOrderToPaid = async (req, res) => {
   const { id: orderId } = req.params;
   const order = await Order.findById(orderId);
@@ -104,6 +119,9 @@ const updateOrderToPaid = async (req, res) => {
   }
 };
 
+// @desc    Update order to delivered
+// @route   POST /api/v1/orders/:id/deliver
+// @access  Private/admin
 const updateOrderToDelivered = async (req, res) => {
   const { id: orderId } = req.params;
   const order = await Order.findById(orderId);
