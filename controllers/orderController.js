@@ -105,7 +105,18 @@ const updateOrderToPaid = async (req, res) => {
 };
 
 const updateOrderToDelivered = async (req, res) => {
-  res.send('updateOrderToDelivered');
+  const { id: orderId } = req.params;
+  const order = await Order.findById(orderId);
+
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.status(StatusCodes.OK).json(updatedOrder);
+  } else {
+    throw new CustomError.NotFoundError(`No order with id : ${orderId}`);
+  }
 };
 
 module.exports = {
