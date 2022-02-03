@@ -100,6 +100,20 @@ const userUpdateProfile = async (req, res) => {
   }
 };
 
+// @desc    Delete user by id
+// @route   DELETE /api/v1/users/:Iid
+// @access  Private/admin
+const deleteUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.status(StatusCodes.OK).json({ message: 'Success! User removed.' });
+  } else {
+    throw new CustomError.CustomAPIError('Something wrong. Please try again.');
+  }
+};
+
 module.exports = {
   getAllUsers,
   getSingleUser,
@@ -107,4 +121,5 @@ module.exports = {
   updateUser,
   updateUserPassword,
   userUpdateProfile,
+  deleteUser,
 };
