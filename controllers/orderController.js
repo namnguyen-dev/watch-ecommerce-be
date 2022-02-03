@@ -5,9 +5,6 @@ const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
 
 const createOrder = async (req, res) => {
-  console.log(req.body);
-  req.body.user = req.user.userId;
-  console.log(req.body);
   const {
     items: cartItems,
     tax,
@@ -64,11 +61,23 @@ const createOrder = async (req, res) => {
 };
 
 const getAllOrders = async (req, res) => {
-  res.send('getAllOrders');
+  const orders = await Order.find({}).populate('user');
+  res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
+
 const getSingleOrder = async (req, res) => {
-  res.send('getSingleOrder');
+  const { id: orderId } = req.params;
+  const order = await Order.findOne({ _id: orderId }).populate(
+    'user',
+    'name email'
+  );
+  if (!order) {
+    throw new CustomError.NotFoundError(`No order with id : ${orderId}`);
+  }
+  checkPermissions(req.user, order.user._id);
+  res.status(StatusCodes.OK).json({ order });
 };
+
 const getCurrentUserOrders = async (req, res) => {
   res.send('getCurrentUserOrders');
 };
