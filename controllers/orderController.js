@@ -79,17 +79,33 @@ const getSingleOrder = async (req, res) => {
 };
 
 const getCurrentUserOrders = async (req, res) => {
-  res.send('getCurrentUserOrders');
+  const orders = await Order.find({ user: req.user.userId });
+  res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
 
-const updateOrder = async (req, res) => {
-  res.send('updateOrder');
+const updateOrderToPaid = async (req, res) => {
+  const { id: orderId } = req.params;
+  const order = await Order.findById(orderId);
+
+  if (order) {
+    order.status = 'paid';
+    order.paidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+
+    const updatedOrder = await order.save();
+    res.status(StatusCodes.OK).json(updatedOrder);
+  } else {
+    throw new CustomError.NotFoundError(`No order with id : ${orderId}`);
+  }
 };
+
 const updateOrderToDelivered = async (req, res) => {
   res.send('updateOrderToDelivered');
-};
-const updateOrderToPaid = async (req, res) => {
-  res.send(' updateOrderToPaid');
 };
 
 module.exports = {
@@ -97,7 +113,6 @@ module.exports = {
   getSingleOrder,
   getCurrentUserOrders,
   createOrder,
-  updateOrder,
   updateOrderToDelivered,
   updateOrderToPaid,
 };
