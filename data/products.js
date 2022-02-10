@@ -131,7 +131,7 @@ const products = [
       'The Dazzling Moon has a white lacquer dial with a blue enamelled disc at 6 showing the full moon and the new moon, the former depicted by a meteorite applique and the latter by a silver ring. The Dazzling Moon also displays the date around the circumference of the dial, via a centre hand with a crescent moon at its tip.',
     brand: 'jaeger',
     category: 'women',
-    featured: true,
+    featured: false,
     image:
       'https://res.cloudinary.com/namnguyenthanh/image/upload/v1644027164/Watch-e-commerce/krokwwaicjyeehwsmtso.png',
 
@@ -142,9 +142,9 @@ const products = [
     price: 2000000,
     description:
       'The sunray finish creates delicate light reflections on many dials in the Jewellery Moon collection. It is obtained using masterful brushing techniques that create grooves running outwards from the centre of the dial. Light is diffused consistently along each engraving, creating a characteristic subtle glow that moves depending on the position of the wrist.',
-    brand: 'Jaeger',
+    brand: 'jaeger',
     category: 'women',
-    featured: true,
+    featured: false,
     image:
       'https://res.cloudinary.com/namnguyenthanh/image/upload/v1644027164/Watch-e-commerce/drtlfsqnei2njkrif8xu.png',
 
@@ -157,7 +157,7 @@ const products = [
     description: `A fixed inverted red triangle on the dial points to the chosen reference time,the time at home or at the travellers usual workplace,on the off-centre 24-hour disc. At a glance, this 24-hour display clearly distinguishes daytime hours from night-time hours in the other time zone.`,
     brand: 'jaeger',
     category: 'women',
-    featured: true,
+    featured: false,
     image:
       'https://res.cloudinary.com/namnguyenthanh/image/upload/v1644027164/Watch-e-commerce/ibnmqj1ydqdhgbiltw6i.png',
 
@@ -170,7 +170,7 @@ const products = [
       'The Redezvous fluted bezel is a mark of distinction. Originally, the fluting of the Oyster bezel had a functional purpose: it served to screw the bezel onto the case helping to ensure the waterproofness of the watch. It was therefore identical to the fluting on the case back, which was also screwed onto the case for waterproofness, using specific Jaeger tools.',
     brand: 'jaeger',
     category: 'women',
-    featured: true,
+    featured: false,
     image:
       'https://res.cloudinary.com/namnguyenthanh/image/upload/v1644027164/Watch-e-commerce/ixf0oh5z4cgxjxmi93l0.png',
 
