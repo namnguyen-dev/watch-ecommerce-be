@@ -8,13 +8,14 @@ const { checkPermissions } = require('../utils');
 // @route   POST /api/v1/orders
 // @access  Public
 const createOrder = async (req, res) => {
+  const user = req.user.userId;
   const {
     items: cartItems,
     tax,
     shipping_fee,
     shippingAddress,
     paymentMethod,
-    user,
+
   } = req.body;
 
   if (!cartItems || cartItems.length < 1) {

@@ -7,9 +7,26 @@ const path = require('path');
 // @route   POST /api/v1/products
 // @access  Private/admin
 const createProduct = async (req, res) => {
-  req.body.user = req.user.userId;
-  const product = await Product.create(req.body);
-  res.status(StatusCodes.CREATED).json({ product });
+  if (!req.body.name) {
+    const product = await Product.create({
+      name: 'Sample product',
+      price: 10000,
+      description: 'Sample description',
+      brand: 'rolex',
+      category: 'men',
+      featured: false,
+      image:
+        'https://res.cloudinary.com/namnguyenthanh/image/upload/v1644027164/Watch-e-commerce/ibnmqj1ydqdhgbiltw6i.png',
+
+      colors: ['#000'],
+      user: req.user.userId,
+    });
+    res.status(StatusCodes.CREATED).json({ product });
+  } else {
+    req.body.user = req.user.userId;
+    const product = await Product.create(req.body);
+    res.status(StatusCodes.CREATED).json({ product });
+  }
 };
 
 // @desc    Get all products
@@ -26,7 +43,12 @@ const getAllProducts = async (req, res) => {
 const getSingleProduct = async (req, res) => {
   const { id: productId } = req.params;
 
-  const product = await Product.findOne({ _id: productId }).populate('reviews');
+  const product = await Product.findOne({ _id: productId }).populate({
+    path: 'reviews',
+    populate: {
+      path: 'user',
+    },
+  });
 
   if (!product) {
     throw new CustomError.NotFoundError(`No product with id : ${productId}`);
@@ -73,6 +95,7 @@ const deleteProduct = async (req, res) => {
 // @route   POST /api/v1/products/uploadImage
 // @access  Private/admin
 const uploadImage = async (req, res) => {
+  console.log(req.files);
   if (!req.files) {
     throw new CustomError.BadRequestError('No File Uploaded');
   }
